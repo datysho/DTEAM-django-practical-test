@@ -84,3 +84,14 @@ Complete each task thoroughly, commit your work following the branch-and-merge s
    ```bash
    pyenv install 3.10.2
    pyenv local 3.10.2```
+
+# Run project
+To run any command use `poetry run`, e.g. `poetry run python manage.py shell`
+
+`poetry run python manage.py runserver`
+
+# Load fixtures
+`python manage.py loaddata initial_cv.json`
+
+# Run Tests
+`poetry run python manage.py test`

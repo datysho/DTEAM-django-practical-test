@@ -1,0 +1,15 @@
+[
+  {
+    "model": "main.cv",
+    "pk": 1,
+    "fields": {
+      "firstname": "John",
+      "lastname": "Doe",
+      "skills": "Python, Django, JavaScript",
+      "projects": "Project A, Project B",
+      "bio": "A passionate developer.",
+      "contacts": "john.doe@example.com"
+    }
+  }
+]
+

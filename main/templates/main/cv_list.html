@@ -1,0 +1,19 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>CV List</title>
+</head>
+<body>
+    <div class="container">
+        <h1>CV List</h1>
+        <ul class="list-group">
+            {% for cv in cvs %}
+                <li class="list-group-item">
+                    <a href="{% url 'cv_detail' cv.id %}">{{ cv.firstname }} {{ cv.lastname }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
