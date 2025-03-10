@@ -76,3 +76,11 @@ Deploy this project to DigitalOcean or any other VPS. (If you do not have a Digi
 ## **That’s it!**
 Complete each task thoroughly, commit your work following the branch-and-merge structure, and make sure your `README.md` clearly explains how to install, run, and test everything. We look forward to reviewing your submission!
 **Thank you!**
+
+---
+# Usage
+1. Make sure you have [pyenv](https://github.com/pyenv/pyenv) and [Poetry](https://python-poetry.org/) installed.
+2. Install the required Python version:
+   ```bash
+   pyenv install 3.10.2
+   pyenv local 3.10.2```
