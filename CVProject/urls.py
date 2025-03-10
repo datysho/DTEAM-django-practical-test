@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_views.cv_list, name='cv_list'),
     path('cv/<int:id>/', main_views.cv_detail, name='cv_detail'),
+    path('cv/<int:id>/pdf/', main_views.cv_pdf, name='cv_pdf'),
 ]

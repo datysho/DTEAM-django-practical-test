@@ -10,6 +10,7 @@
         <p><strong>Projects:</strong> {{ cv.projects }}</p>
         <p><strong>Bio:</strong> {{ cv.bio }}</p>
         <p><strong>Contacts:</strong> {{ cv.contacts }}</p>
+        <a href="{% url 'cv_pdf' cv.id %}" class="btn btn-primary">Download PDF</a>
     </div>
 </body>
 </html>

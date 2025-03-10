@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CV Detail PDF</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    /* Additional PDF styling */
+    body { font-family: sans-serif; }
+    .container { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>{{ cv.firstname }} {{ cv.lastname }}</h1>
+    <p><strong>Skills:</strong> {{ cv.skills }}</p>
+    <p><strong>Projects:</strong> {{ cv.projects }}</p>
+    <p><strong>Bio:</strong> {{ cv.bio }}</p>
+    <p><strong>Contacts:</strong> {{ cv.contacts }}</p>
+  </div>
+</body>
+</html>
+
