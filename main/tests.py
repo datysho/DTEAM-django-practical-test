@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
 from .models import CV
 
 class CVViewsTestCase(TestCase):
@@ -22,4 +24,61 @@ class CVViewsTestCase(TestCase):
         response = self.client.get(reverse('cv_detail', args=[self.cv.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'John')
+
+class CVAPITestCase(APITestCase):
+    def setUp(self):
+        self.cv_data = {
+            'firstname': 'Alice',
+            'lastname': 'Smith',
+            'skills': 'Python, Django, REST',
+            'projects': 'Project X',
+            'bio': 'A skilled developer.',
+            'contacts': 'alice.smith@example.com'
+        }
+        self.cv = CV.objects.create(**self.cv_data)
+
+    def test_list_cv(self):
+        url = reverse('cv-list')  # Automatically created by the router
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(len(response.data) >= 1)
+
+    def test_retrieve_cv(self):
+        url = reverse('cv-detail', args=[self.cv.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['firstname'], self.cv_data['firstname'])
+
+    def test_create_cv(self):
+        url = reverse('cv-list')
+        new_cv_data = {
+            'firstname': 'Bob',
+            'lastname': 'Johnson',
+            'skills': 'JavaScript, React',
+            'projects': 'Project Y',
+            'bio': 'Another developer.',
+            'contacts': 'bob.johnson@example.com'
+        }
+        response = self.client.post(url, new_cv_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['firstname'], new_cv_data['firstname'])
+
+    def test_update_cv(self):
+        url = reverse('cv-detail', args=[self.cv.id])
+        updated_data = {
+            'firstname': 'Alice',
+            'lastname': 'Smith',
+            'skills': 'Python, Django, DRF',
+            'projects': 'Project X',
+            'bio': 'An expert developer.',
+            'contacts': 'alice.smith@example.com'
+        }
+        response = self.client.put(url, updated_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['skills'], updated_data['skills'])
+
+    def test_delete_cv(self):
+        url = reverse('cv-detail', args=[self.cv.id])
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
