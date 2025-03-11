@@ -82,3 +82,32 @@ class CVAPITestCase(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+from django.test import TestCase, RequestFactory
+from django.contrib.auth.models import AnonymousUser, User
+from .models import RequestLog
+from .middleware import RequestLoggingMiddleware
+
+class RequestLoggingMiddlewareTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.middleware = RequestLoggingMiddleware()
+
+    def test_logging_for_anonymous_request(self):
+        request = self.factory.get('/test-path/?foo=bar')
+        request.user = AnonymousUser()
+        self.middleware.process_request(request)
+        log = RequestLog.objects.last()
+        self.assertEqual(log.method, 'GET')
+        self.assertEqual(log.path, '/test-path/')
+        self.assertEqual(log.query_string, 'foo=bar')
+        # REMOTE_ADDR may be empty in test environment
+        self.assertIsNone(log.user)
+
+    def test_logging_for_authenticated_user(self):
+        user = User.objects.create_user(username='testuser', password='testpass')
+        request = self.factory.get('/test-path/')
+        request.user = user
+        self.middleware.process_request(request)
+        log = RequestLog.objects.last()
+        self.assertEqual(log.user, user)
+

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from weasyprint import HTML
-from .models import CV
+from .models import CV, RequestLog
 
 
 def cv_pdf(request, id):
@@ -29,4 +29,9 @@ def cv_list(request):
 def cv_detail(request, id):
     cv = get_object_or_404(CV, id=id)
     return render(request, 'main/cv_detail.html', {'cv': cv})
+
+
+def recent_logs(request):
+    logs = RequestLog.objects.all().order_by('-timestamp')[:10]
+    return render(request, 'main/recent_logs.html', {'logs': logs})
 
