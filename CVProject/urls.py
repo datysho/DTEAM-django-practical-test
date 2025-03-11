@@ -15,6 +15,7 @@ urlpatterns = [
     path('cv/<int:id>/', main_views.cv_detail, name='cv_detail'),
     path('cv/<int:id>/pdf/', main_views.cv_pdf, name='cv_pdf'),
     path("cv/<int:id>/send_email/", main_views.send_pdf_email, name="send_pdf_email"),
+    path("cv/<int:id>/translate/", main_views.translate_cv, name="translate_cv"),
     path('api/', include(router.urls)),
     path('logs/', main_views.recent_logs, name='recent_logs'),
     path('settings/', main_views.settings_page, name='settings_page'),

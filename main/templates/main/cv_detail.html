@@ -14,7 +14,7 @@
     <p><strong>Contacts:</strong> {{ cv.contacts }}</p>
     <a href="{% url 'cv_pdf' cv.id %}" class="btn btn-primary">Download PDF</a>
     
-    <!-- Email Form -->
+    <!-- Email Form from Task 7 (if still present) -->
     <form method="post" action="{% url 'send_pdf_email' cv.id %}" class="mt-3">
       {% csrf_token %}
       <div class="form-group">
@@ -22,6 +22,34 @@
         <input type="email" name="email" id="email" class="form-control" required>
       </div>
       <button type="submit" class="btn btn-secondary">Send PDF to Email</button>
+    </form>
+
+    <!-- Translation Form -->
+    <form method="post" action="{% url 'translate_cv' cv.id %}" class="mt-3">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="language">Translate CV to:</label>
+        <select name="language" id="language" class="form-control" required>
+          <option value="Cornish">Cornish</option>
+          <option value="Manx">Manx</option>
+          <option value="Breton">Breton</option>
+          <option value="Inuktitut">Inuktitut</option>
+          <option value="Kalaallisut">Kalaallisut</option>
+          <option value="Romani">Romani</option>
+          <option value="Occitan">Occitan</option>
+          <option value="Ladino">Ladino</option>
+          <option value="Northern Sami">Northern Sami</option>
+          <option value="Upper Sorbian">Upper Sorbian</option>
+          <option value="Kashubian">Kashubian</option>
+          <option value="Zazaki">Zazaki</option>
+          <option value="Chuvash">Chuvash</option>
+          <option value="Livonian">Livonian</option>
+          <option value="Tsakonian">Tsakonian</option>
+          <option value="Saramaccan">Saramaccan</option>
+          <option value="Bislama">Bislama</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-info">Translate</button>
     </form>
   </div>
 </body>

@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from weasyprint import HTML
 from .models import CV, RequestLog
 from .tasks import send_cv_pdf_email
+from django.conf import settings
+from openai import OpenAI
 
 
 def cv_pdf(request, id):
@@ -54,3 +56,45 @@ def send_pdf_email(request, id):
         return redirect("cv_detail", id=id)
     return redirect("cv_detail", id=id)
 
+def translate_cv(request, id):
+    cv = get_object_or_404(CV, id=id)
+    if request.method == "POST":
+        target_language = request.POST.get("language")
+        # Combine CV content; adjust as needed for your use case.
+        text_to_translate = (
+            f"Name: {cv.firstname} {cv.lastname}\n"
+            f"Skills: {cv.skills}\n"
+            f"Projects: {cv.projects}\n"
+            f"Bio: {cv.bio}\n"
+            f"Contacts: {cv.contacts}"
+        )
+        translated_text = translate_text_with_openai(text_to_translate, target_language)
+        return render(request, "main/cv_translated.html", {
+            "cv": cv,
+            "translated_text": translated_text,
+            "target_language": target_language,
+        })
+    return redirect("cv_detail", id=id)
+
+
+def translate_text_with_openai(text, target_language):
+    """
+    Uses the new OpenAI Python API (v1) to translate text into the target language.
+    """
+    # Create a client instance using the API key from settings
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    
+    prompt = f"Translate the following text into {target_language}:\n\n{text}"
+    
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a translation assistant."},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.3,
+    )
+    
+    # Access the translated text using the new attribute syntax
+    translated_text = response.choices[0].message.content.strip()
+    return translated_text
