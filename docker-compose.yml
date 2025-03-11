@@ -1,5 +1,10 @@
-version: '3.8'
 services:
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
   db:
     image: postgres:13
     restart: always
@@ -19,6 +24,17 @@ services:
       - .env
     depends_on:
       - db
+      - redis
+
+  celery:
+    build: .
+    command: poetry run celery -A CVProject worker -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
 
 volumes:
   postgres_data:

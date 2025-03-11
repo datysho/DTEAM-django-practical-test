@@ -1,17 +1,29 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>CV Detail</title>
+  <meta charset="utf-8">
+  <title>CV Detail</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>{{ cv.firstname }} {{ cv.lastname }}</h1>
-        <p><strong>Skills:</strong> {{ cv.skills }}</p>
-        <p><strong>Projects:</strong> {{ cv.projects }}</p>
-        <p><strong>Bio:</strong> {{ cv.bio }}</p>
-        <p><strong>Contacts:</strong> {{ cv.contacts }}</p>
-        <a href="{% url 'cv_pdf' cv.id %}" class="btn btn-primary">Download PDF</a>
-    </div>
+  <div class="container">
+    <h1>{{ cv.firstname }} {{ cv.lastname }}</h1>
+    <p><strong>Skills:</strong> {{ cv.skills }}</p>
+    <p><strong>Projects:</strong> {{ cv.projects }}</p>
+    <p><strong>Bio:</strong> {{ cv.bio }}</p>
+    <p><strong>Contacts:</strong> {{ cv.contacts }}</p>
+    <a href="{% url 'cv_pdf' cv.id %}" class="btn btn-primary">Download PDF</a>
+    
+    <!-- Email Form -->
+    <form method="post" action="{% url 'send_pdf_email' cv.id %}" class="mt-3">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Send PDF to Email:</label>
+        <input type="email" name="email" id="email" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-secondary">Send PDF to Email</button>
+    </form>
+  </div>
 </body>
 </html>
 

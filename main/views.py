@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from weasyprint import HTML
 from .models import CV, RequestLog
+from .tasks import send_cv_pdf_email
 
 
 def cv_pdf(request, id):
@@ -41,3 +42,15 @@ def settings_page(request):
     Render a settings page displaying selected Django settings.
     """
     return render(request, 'main/settings.html')
+
+def send_pdf_email(request, id):
+    if request.method == "POST":
+        recipient_email = request.POST.get("email")
+        # Optionally, validate the email
+        cv = get_object_or_404(CV, pk=id)
+        # Trigger the Celery task asynchronously.
+        send_cv_pdf_email.delay(id, recipient_email)
+        # Redirect back to the CV detail page (you can add a success message if desired)
+        return redirect("cv_detail", id=id)
+    return redirect("cv_detail", id=id)
+
