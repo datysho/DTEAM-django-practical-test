@@ -16,4 +16,5 @@ urlpatterns = [
     path('cv/<int:id>/pdf/', main_views.cv_pdf, name='cv_pdf'),
     path('api/', include(router.urls)),
     path('logs/', main_views.recent_logs, name='recent_logs'),
+    path('settings/', main_views.settings_page, name='settings_page'),
 ]

@@ -35,3 +35,9 @@ def recent_logs(request):
     logs = RequestLog.objects.all().order_by('-timestamp')[:10]
     return render(request, 'main/recent_logs.html', {'logs': logs})
 
+
+def settings_page(request):
+    """
+    Render a settings page displaying selected Django settings.
+    """
+    return render(request, 'main/settings.html')
