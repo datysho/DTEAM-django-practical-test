@@ -9,7 +9,18 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Install system dependencies and required packages for PostgreSQL.
-RUN apt-get update && apt-get install -y build-essential libpq-dev curl && \
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    curl \
+    libffi-dev \
+    libcairo2 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libgdk-pixbuf2.0-0 \
+    libglib2.0-0 \
+    libgirepository1.0-dev \
+    shared-mime-info && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Poetry.
@@ -20,7 +31,9 @@ RUN curl -sSL https://install.python-poetry.org | python - && \
 COPY pyproject.toml poetry.lock* /app/
 
 # Install project dependencies.
-RUN poetry config virtualenvs.create false && poetry install --no-dev --no-interaction --no-ansi
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+
+
 
 # Copy the rest of the project.
 COPY . /app/

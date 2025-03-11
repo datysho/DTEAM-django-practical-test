@@ -11,10 +11,18 @@ dependencies = [
     "django (>=5.1.7,<6.0.0)",
     "weasyprint (>=64.1,<65.0)",
     "djangorestframework (>=3.15.2,<4.0.0)",
-    "dj-database-url (>=2.3.0,<3.0.0)"
+    "dj-database-url (>=2.3.0,<3.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "dteam-django-practical-test"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <your.email@example.com>"]
+package-mode = false
