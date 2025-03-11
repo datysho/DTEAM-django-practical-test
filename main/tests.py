@@ -87,10 +87,13 @@ from django.contrib.auth.models import AnonymousUser, User
 from .models import RequestLog
 from .middleware import RequestLoggingMiddleware
 
+def dummy_get_response(request):
+    return None
+
 class RequestLoggingMiddlewareTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.middleware = RequestLoggingMiddleware()
+        self.middleware = RequestLoggingMiddleware(dummy_get_response)
 
     def test_logging_for_anonymous_request(self):
         request = self.factory.get('/test-path/?foo=bar')
